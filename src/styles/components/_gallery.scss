@@ -1,0 +1,309 @@
+// Gallery X Styles
+// 3D parallax grid gallery with hover interactions
+
+.gallery-x {
+  min-height: 100vh;
+  padding: 8rem 2rem 4rem;
+  background: linear-gradient(
+    180deg,
+    #050508 0%,
+    #0a0a10 50%,
+    #050508 100%
+  );
+  perspective: 1000px;
+
+  &__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  &__heading {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+    background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &__subheading {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  &__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    transform-style: preserve-3d;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    transform-style: preserve-3d;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__item {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #111;
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  &__image-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+    .gallery-x__item:hover & {
+      transform: scale(1.08);
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0) 50%
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    .gallery-x__item:hover & {
+      opacity: 1;
+    }
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: -0.01em;
+  }
+
+  // Modal
+  &__modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    perspective: 1000px;
+  }
+
+  &__modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(30px);
+  }
+
+  &__modal-image {
+    position: relative;
+    z-index: 1;
+    max-width: 80vw;
+    max-height: 75vh;
+    border-radius: 20px;
+    object-fit: contain;
+    box-shadow:
+      0 50px 100px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  &__modal-info {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: -0.02em;
+  }
+
+  &__modal-close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    z-index: 2;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+  }
+
+  // Scroll hint
+  &__scroll-hint {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 0 2rem;
+  }
+
+  &__scroll-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+
+    svg {
+      opacity: 0.5;
+    }
+  }
+}
+
+// Page wrapper
+.experience-gallery {
+  min-height: 100vh;
+  background: #050508;
+  position: relative;
+
+  // Floating CTA Button
+  &__cta {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 100;
+
+    @media (max-width: 640px) {
+      bottom: 1.5rem;
+      right: 1rem;
+      left: 1rem;
+    }
+  }
+
+  &__cta-button {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.875rem 1.25rem;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 100px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow:
+      0 0 20px rgba(255, 255, 255, 0.3),
+      0 0 40px rgba(255, 255, 255, 0.15),
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+
+    @media (max-width: 640px) {
+      width: 100%;
+      justify-content: center;
+    }
+
+    &:hover {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.5);
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 25px rgba(59, 130, 246, 0.4),
+        0 0 50px rgba(59, 130, 246, 0.2),
+        0 15px 50px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(59, 130, 246, 0.2) inset;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &__cta-icon {
+    width: 22px;
+    height: 22px;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  &__cta-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    text-align: left;
+  }
+
+  &__cta-label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    transition: color 0.3s ease;
+  }
+
+  &__cta-sublabel {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.02em;
+  }
+}

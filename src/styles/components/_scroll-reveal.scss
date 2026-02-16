@@ -1,0 +1,105 @@
+// ==============================================
+// SCROLL REVEAL TEXT COMPONENT
+// Hover-triggered text animation styles
+// ==============================================
+
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.scroll-reveal {
+  position: relative;
+  background: #0a0a0a;
+  min-height: 100vh;
+
+  &__container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+
+    @include md {
+      padding: 6rem 4rem;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    max-width: 1400px;
+    width: 100%;
+
+    @include md {
+      gap: 1rem;
+    }
+  }
+
+  &__line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    transform-origin: center center;
+
+    @include md {
+      gap: 2rem;
+    }
+
+    // On hover, make text white
+    &:hover {
+      .scroll-reveal__text {
+        color: #fff;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+      }
+
+      .scroll-reveal__year {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+
+  &__year {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.1em;
+    min-width: 3.5rem;
+    text-align: right;
+    transition: color 0.3s ease;
+
+    @include md {
+      font-size: 0.8rem;
+      min-width: 4.5rem;
+    }
+  }
+
+  &__text {
+    font-size: clamp(1.75rem, 6vw, 4.5rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.35);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+
+    &--highlight {
+      font-weight: 400;
+    }
+  }
+}
+
+// Dark theme overrides (if needed)
+.dark .scroll-reveal {
+  background: #0a0a0a;
+}
+
+// Light theme (optional)
+.light .scroll-reveal {
+  background: #0a0a0a; // Keep dark for this component
+}

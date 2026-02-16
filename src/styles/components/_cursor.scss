@@ -1,0 +1,75 @@
+// ==============================================
+// SMOOTH CURSOR
+// Custom animated cursor for Awwwards-style UX
+// ==============================================
+
+// Hide default cursor on the video hero
+.video-hero {
+  cursor: none;
+
+  // Restore default cursor for interactive elements
+  a, button, .video-hero__cta, .video-hero__preview {
+    cursor: pointer;
+  }
+}
+
+// Main cursor dot
+.smooth-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+
+  // Hide on touch devices
+  @media (pointer: coarse) {
+    display: none;
+  }
+}
+
+// Africa map that trails the cursor
+.smooth-cursor__africa {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Hide on touch devices
+  @media (pointer: coarse) {
+    display: none;
+  }
+}
+
+// Africa SVG image
+.smooth-cursor__africa-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6))
+          drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+// Play icon centered over Africa map
+.smooth-cursor__play {
+  position: absolute;
+  // top: 45%;
+  right: 20%;
+  transform: translate(-50%, -50%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

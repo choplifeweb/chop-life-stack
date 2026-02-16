@@ -1,0 +1,63 @@
+// ==============================================
+// PRELOAD ANIMATION STYLES
+// Framer-inspired preload animation with logo fill effect
+// ==============================================
+
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.preload-animation {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+
+  // Overlay that slides up to reveal content
+  &__overlay {
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  // Logo container with centered positioning
+  &__logo-container {
+    will-change: transform;
+  }
+
+  // Background logo (dimmed version)
+  &__logo-bg {
+    img {
+      will-change: filter;
+    }
+  }
+
+  // Foreground logo with clip-path animation
+  &__logo-fill {
+    will-change: clip-path;
+
+    img {
+      will-change: filter;
+    }
+  }
+
+  // Progress bar indicator
+  &__progress-bar {
+    will-change: width;
+
+    div {
+      will-change: width;
+      transition: width 0.1s ease-out;
+    }
+  }
+
+  // Content wrapper
+  &__content {
+    will-change: auto;
+  }
+}
+
+// Experience gallery wrapper
+.experience-gallery {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}

@@ -1,0 +1,400 @@
+// ==============================================
+// ABOUT PAGE STYLES
+// Stylish scrolling text with hover details
+// ==============================================
+
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.about-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+  position: relative;
+  overflow-x: hidden;
+
+  // Stylish background with image and overlays
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--about-bg-image, url('/assets/images/bg.jpg'));
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  // Gradient overlay for text readability and style
+  &::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(var(--background-rgb, 0, 0, 0), 0.85) 0%,
+        rgba(var(--background-rgb, 0, 0, 0), 0.75) 50%,
+        rgba(var(--background-rgb, 0, 0, 0), 0.85) 100%
+      ),
+      radial-gradient(ellipse 80% 50% at 20% 40%, rgba(var(--primary-rgb, 234, 179, 8), 0.12) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 80% 60%, rgba(var(--primary-rgb, 234, 179, 8), 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+// Brand Statements - Main scrolling text
+.about-statements {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: $spacing-2xl $spacing-md;
+  padding-top: 100px; // Space for mobile header
+  padding-bottom: $spacing-xl;
+  position: relative;
+  z-index: 1;
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-2xl * 2 $spacing-xl;
+    padding-top: $spacing-2xl * 2;
+  }
+
+  &__container {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+
+    @media (min-width: $breakpoint-lg) {
+      max-width: 60%; // Leave room for floating detail panel
+      margin-left: $spacing-xl;
+      margin-right: auto;
+    }
+  }
+
+  &__line {
+    cursor: pointer;
+    padding: $spacing-md 0;
+    border-bottom: 1px solid rgba(var(--foreground-rgb, 255, 255, 255), 0.08);
+    position: relative;
+    transition: border-color 0.3s ease;
+
+    @media (min-width: $breakpoint-md) {
+      padding: $spacing-lg 0;
+    }
+
+    &:first-child {
+      border-top: 1px solid rgba(var(--foreground-rgb, 255, 255, 255), 0.08);
+    }
+
+    &--highlight .about-statements__text {
+      background: linear-gradient(
+        90deg,
+        var(--foreground) 0%,
+        var(--muted-foreground) 50%,
+        var(--foreground) 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    // Active state for both hover (desktop) and tap (mobile)
+    &:hover,
+    &--active {
+      border-bottom-color: var(--foreground);
+    }
+
+    &:hover .about-statements__text,
+    &--active .about-statements__text {
+      -webkit-text-fill-color: unset;
+      background: none;
+      color: var(--foreground);
+      opacity: 1;
+    }
+  }
+
+  &__text {
+    font-size: clamp(1.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--foreground);
+    display: block;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+
+    @media (min-width: $breakpoint-lg) {
+      font-size: clamp(2rem, 4vw, 4.5rem);
+    }
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 200% center;
+  }
+}
+
+// Detail Panel - Floating on the right with fog effect
+.about-detail {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 35%;
+  max-width: 450px;
+  min-width: 300px;
+  padding: $spacing-2xl;
+  z-index: 10;
+  pointer-events: none;
+  display: none;
+
+  // Fog effect - gradient fade from right
+  &::before {
+    content: "";
+    position: absolute;
+    top: -100vh;
+    bottom: -100vh;
+    right: 0;
+    width: 150%;
+    background: linear-gradient(
+      to left,
+      var(--background) 0%,
+      var(--background) 20%,
+      rgba(var(--background-rgb, 0, 0, 0), 0.9) 40%,
+      rgba(var(--background-rgb, 0, 0, 0), 0.6) 60%,
+      rgba(var(--background-rgb, 0, 0, 0), 0.3) 80%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    display: flex;
+    align-items: center;
+  }
+
+  // Mobile: show at bottom with fog
+  @media (max-width: $breakpoint-lg) {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: 0;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    padding: $spacing-2xl $spacing-lg $spacing-xl;
+
+    &::before {
+      top: -100px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background: linear-gradient(
+        to top,
+        var(--background) 0%,
+        var(--background) 40%,
+        rgba(var(--background-rgb, 0, 0, 0), 0.8) 60%,
+        rgba(var(--background-rgb, 0, 0, 0), 0.4) 80%,
+        transparent 100%
+      );
+    }
+  }
+
+  &__content {
+    width: 100%;
+    text-align: left;
+    position: relative;
+    z-index: 1;
+
+    @media (max-width: $breakpoint-lg) {
+      text-align: center;
+    }
+  }
+
+  &__text {
+    font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+    line-height: 1.8;
+    color: var(--foreground);
+    margin: 0;
+    font-weight: 400;
+    text-shadow: 0 2px 20px rgba(var(--background-rgb, 0, 0, 0), 0.5);
+  }
+
+  &__hint {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    margin: 0;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    @media (max-width: $breakpoint-lg) {
+      justify-content: center;
+    }
+
+    &::before {
+      content: "";
+      width: 20px;
+      height: 1px;
+      background: var(--muted-foreground);
+      opacity: 0.5;
+    }
+  }
+}
+
+// Social/Footer Section - Premium Design
+.about-social {
+  padding: $spacing-2xl $spacing-md;
+  background: var(--background);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid rgba(var(--foreground-rgb, 255, 255, 255), 0.08);
+
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-2xl * 1.5 $spacing-xl;
+  }
+
+  &__container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xl;
+  }
+
+  &__heading {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 0;
+    color: var(--foreground);
+    letter-spacing: -0.01em;
+    position: relative;
+    display: inline-block;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      border-radius: $radius-full;
+    }
+  }
+
+  &__links {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-lg;
+    flex-wrap: wrap;
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-md $spacing-lg;
+    background: rgba(var(--foreground-rgb, 255, 255, 255), 0.03);
+    border: 1px solid rgba(var(--foreground-rgb, 255, 255, 255), 0.08);
+    border-radius: $radius-xl;
+    text-decoration: none;
+    color: var(--foreground);
+    transition: all 0.3s ease;
+    min-width: 100px;
+
+    &:hover {
+      background: rgba(var(--primary-rgb, 234, 179, 8), 0.1);
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(var(--primary-rgb, 234, 179, 8), 0.15);
+
+      .about-social__icon {
+        color: var(--primary);
+        transform: scale(1.1);
+      }
+
+      .about-social__name {
+        color: var(--primary);
+      }
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: rgba(var(--foreground-rgb, 255, 255, 255), 0.05);
+    border-radius: $radius-lg;
+    transition: all 0.3s ease;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: color 0.3s ease;
+  }
+
+  &__hashtags {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+    padding-top: $spacing-md;
+    border-top: 1px solid rgba(var(--foreground-rgb, 255, 255, 255), 0.05);
+  }
+
+  &__hashtag {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted-foreground);
+    padding: $spacing-xs $spacing-md;
+    background: rgba(var(--foreground-rgb, 255, 255, 255), 0.03);
+    border: 1px solid rgba(var(--foreground-rgb, 255, 255, 255), 0.05);
+    border-radius: $radius-full;
+    transition: all 0.3s ease;
+    cursor: default;
+
+    &:hover {
+      background: rgba(var(--primary-rgb, 234, 179, 8), 0.1);
+      border-color: rgba(var(--primary-rgb, 234, 179, 8), 0.3);
+      color: var(--primary);
+    }
+  }
+}

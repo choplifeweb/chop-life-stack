@@ -1,0 +1,70 @@
+// ==============================================
+// CUSTOM STYLES
+// Your custom SCSS that works alongside Tailwind
+// ==============================================
+
+@use "variables" as *;
+@use "mixins" as *;
+
+// Example: Custom component styles
+// Use this file for complex styles that benefit from Sass features
+// For simple styles, continue using Tailwind classes directly
+
+// Example custom card with Sass features
+// .custom-card {
+//   padding: $spacing-md;
+//   border-radius: $radius-lg;
+//   background: var(--card);
+//   color: var(--card-foreground);
+//   @include transition(transform, box-shadow);
+
+//   &:hover {
+//     transform: translateY(-2px);
+//     box-shadow: $shadow-lg;
+//   }
+
+//   // Nested elements using Sass nesting
+//   &__header {
+//     @include flex-between;
+//     margin-bottom: $spacing-sm;
+//   }
+
+//   &__title {
+//     font-weight: 600;
+//     @include truncate;
+//   }
+
+//   &__content {
+//     @include line-clamp(3);
+//   }
+
+//   // Responsive adjustments
+//   @include md {
+//     padding: $spacing-lg;
+//   }
+// }
+
+// // Example: Custom scrollable container
+// .scrollable-container {
+//   overflow-y: auto;
+//   max-height: 400px;
+//   @include custom-scrollbar;
+// }
+
+// Add your custom styles below this line
+// ============================================
+
+@use 'components/header';
+@use 'components/hero';
+@use 'components/cursor';
+@use 'components/gallery';
+@use 'components/contact';
+@use 'components/preload';
+@use 'components/scroll-reveal';
+@use 'components/about';
+@use 'components/events';
+@use 'components/event-details';
+@use 'components/checkout';
+@use 'components/checkout-success';
+@use 'components/ticket-verify';
+@use 'components/calendar-events-redirect';

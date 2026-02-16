@@ -1,0 +1,720 @@
+// ==============================================
+// EVENT DETAILS PAGE STYLES
+// Matching Posh.vip event details UI design
+// ==============================================
+
+@use "../variables" as *;
+@use "../mixins" as *;
+
+// ==============================================
+// BASE LAYOUT
+// ==============================================
+
+.event-details {
+  font-family: "Inter", sans-serif;
+  background-color: transparent;
+  color: white;
+
+  // Blurred Background Layer (background-image set dynamically via inline style)
+  &__blur-bg {
+    background-color: #0d0d12;
+    background-size: cover;
+    background-position: center;
+    filter: blur(40px) brightness(0.7) saturate(1.4);
+    transform: scale(1.2);
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  // Overlay gradient
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(
+      circle at center,
+      transparent 0%,
+      rgba(13, 13, 18, 0.7) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+}
+
+// ==============================================
+// GLASS PANEL EFFECT
+// ==============================================
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+// ==============================================
+// NAVBAR
+// ==============================================
+
+.event-details__navbar {
+  backdrop-filter: blur(8px);
+}
+
+// ==============================================
+// HEADER SECTION
+// ==============================================
+
+.event-details__header {
+  h1 {
+    background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.9) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+// ==============================================
+// DESCRIPTION SECTION
+// ==============================================
+
+.event-details__description {
+  strong {
+    color: white;
+  }
+
+  em {
+    font-style: italic;
+  }
+}
+
+// ==============================================
+// GALLERY
+// ==============================================
+
+.event-details__gallery {
+  &-image {
+    transition: transform $transition-normal, box-shadow $transition-normal;
+
+    img {
+      transition: transform $transition-slow;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+
+      img {
+        transform: scale(1.01);
+      }
+    }
+  }
+}
+
+// ==============================================
+// LOCATION MAP
+// ==============================================
+
+.event-details__location {
+  img {
+    transition: transform $transition-slow;
+  }
+
+  &:hover img {
+    transform: scale(1.02);
+  }
+}
+
+.location-map {
+  &__container {
+    height: 256px;
+    border-radius: $radius-xl;
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
+
+    // Ensure leaflet container fills the space
+    .leaflet-container {
+      height: 100% !important;
+      width: 100% !important;
+      z-index: 0;
+    }
+  }
+
+  &__map {
+    height: 100%;
+    width: 100%;
+
+    // Leaflet control styling for dark theme
+    .leaflet-control-zoom {
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: $radius-md !important;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+      a {
+        background: rgba(13, 13, 18, 0.95) !important;
+        color: white !important;
+        border: none !important;
+        width: 30px !important;
+        height: 30px !important;
+        line-height: 30px !important;
+        font-size: 18px !important;
+
+        &:hover {
+          background: rgba(40, 40, 50, 0.95) !important;
+        }
+
+        &:first-child {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+      }
+    }
+
+    .leaflet-control-attribution {
+      background: rgba(13, 13, 18, 0.8) !important;
+      color: rgba(255, 255, 255, 0.5) !important;
+      font-size: 0.625rem;
+
+      a {
+        color: rgba(255, 255, 255, 0.5) !important;
+      }
+    }
+
+    // Ensure touch/click events work on the map
+    .leaflet-interactive {
+      cursor: grab;
+    }
+
+    .leaflet-dragging .leaflet-interactive {
+      cursor: grabbing;
+    }
+  }
+
+  &__actions {
+    position: absolute;
+    top: $spacing-sm;
+    left: $spacing-sm;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    z-index: 1000;
+  }
+
+  &__action-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(13, 13, 18, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border-radius: $radius-md !important;
+
+    &:hover {
+      background: rgba(40, 40, 50, 0.95) !important;
+    }
+  }
+}
+
+// ==============================================
+// HOST CARD
+// ==============================================
+
+.event-details__host-card {
+  transition: transform $transition-normal, box-shadow $transition-normal;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+}
+
+// ==============================================
+// FOOTER
+// ==============================================
+
+.event-details__footer {
+  background: transparent;
+}
+
+// ==============================================
+// STICKY CTA (Mobile)
+// ==============================================
+
+.event-details__sticky-cta {
+  button {
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+// ==============================================
+// RESPONSIVE ADJUSTMENTS
+// ==============================================
+
+// Ensure content doesn't get hidden behind sticky CTA (all screen sizes)
+.event-details {
+  main {
+    padding-bottom: 140px !important;
+  }
+}
+
+@media (max-width: #{$breakpoint-xl - 1}) {
+  .event-details {
+    padding-bottom: 120px; // Extra space for sticky CTA on smaller screens
+  }
+}
+
+// ==============================================
+// ANIMATIONS
+// ==============================================
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.event-details__location {
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+// ==============================================
+// TICKET MODAL - GLASSMORPHIC DESIGN
+// ==============================================
+
+.ticket-modal {
+  animation: fadeIn 0.25s ease-out;
+
+  // Glassmorphic backdrop with enhanced blur
+  &__backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  // Main modal content - glassmorphic container
+  &__content {
+    animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    background: linear-gradient(
+      135deg,
+      rgba(25, 25, 35, 0.95) 0%,
+      rgba(15, 15, 22, 0.98) 100%
+    );
+    backdrop-filter: blur(40px) saturate(1.5);
+    -webkit-backdrop-filter: blur(40px) saturate(1.5);
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.8),
+      0 0 100px -20px rgba(122, 127, 193, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+
+  // Sticky header - glass effect
+  &__header {
+    background: linear-gradient(
+      180deg,
+      rgba(25, 25, 35, 1) 0%,
+      rgba(20, 20, 28, 0.98) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  // Close button - glass pill
+  &__close-btn {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  // Event info sidebar
+  &__event-info {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      transparent 100%
+    );
+    position: relative;
+
+    // Flyer image glow
+    .ticket-modal__flyer {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: -20px;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(122, 127, 193, 0.2) 0%,
+          transparent 70%
+        );
+        z-index: -1;
+        filter: blur(20px);
+      }
+
+      img {
+        border-radius: 16px;
+        box-shadow:
+          0 8px 32px -8px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  // Ticket selection area
+  &__tickets {
+    position: relative;
+
+    // Section title styling
+    &-title {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  // Individual ticket card - glass card
+  &__ticket-card {
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+
+    // Shimmer effect on top edge
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent 100%
+      );
+    }
+
+    &:hover {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.04) 100%
+      );
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.4);
+    }
+
+    // Selected state
+    &--selected {
+      background: linear-gradient(
+        135deg,
+        rgba(122, 127, 193, 0.2) 0%,
+        rgba(122, 127, 193, 0.08) 100%
+      );
+      border-color: rgba(122, 127, 193, 0.4);
+      box-shadow:
+        0 0 0 1px rgba(122, 127, 193, 0.2),
+        0 8px 24px -8px rgba(122, 127, 193, 0.3);
+
+      &::before {
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(122, 127, 193, 0.5) 50%,
+          transparent 100%
+        );
+      }
+
+      &:hover {
+        border-color: rgba(122, 127, 193, 0.5);
+      }
+    }
+
+    // Sold out state
+    &--sold-out {
+      opacity: 0.5;
+      pointer-events: none;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 10px,
+          rgba(0, 0, 0, 0.1) 10px,
+          rgba(0, 0, 0, 0.1) 20px
+        );
+      }
+    }
+  }
+
+  // Quantity control buttons
+  &__qty-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+
+    // Add button (white/primary)
+    &--add {
+      background: white;
+      border-color: white;
+      color: #0f0f16;
+      box-shadow: 0 4px 12px -2px rgba(255, 255, 255, 0.25);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 6px 16px -2px rgba(255, 255, 255, 0.35);
+      }
+    }
+
+    // Remove button
+    &--remove {
+      border-color: rgba(255, 255, 255, 0.3);
+
+      &:hover {
+        border-color: rgba(255, 100, 100, 0.5);
+        background: rgba(255, 100, 100, 0.1);
+      }
+    }
+  }
+
+  // Quantity display
+  &__qty-display {
+    min-width: 28px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: white;
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Order summary section (desktop)
+  &__checkout {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.01) 100%
+    );
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+
+    // Summary title
+    &-title {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    // Line items
+    &-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    // Total section
+    &-total {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 16px;
+      margin-top: 16px;
+
+      .total-amount {
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+
+  // Checkout button - premium styling
+  &__checkout-btn {
+    position: relative;
+    background: linear-gradient(135deg, #fff 0%, #f0f0f5 100%);
+    color: #0f0f16;
+    font-weight: 700;
+    border-radius: 9999px;
+    padding: 14px 32px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow:
+      0 4px 16px -4px rgba(255, 255, 255, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+
+    // Shine effect
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%
+      );
+      transition: left 0.5s ease;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 24px -4px rgba(255, 255, 255, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+
+      &::before {
+        left: 100%;
+      }
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.98);
+    }
+  }
+
+  // Mobile sticky footer
+  &__footer {
+    background: linear-gradient(
+      180deg,
+      rgba(25, 25, 35, 0.95) 0%,
+      rgba(15, 15, 22, 0.98) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -10px 40px -10px rgba(0, 0, 0, 0.5);
+
+    // Top glow line
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(122, 127, 193, 0.5) 50%,
+        transparent 100%
+      );
+    }
+
+    // Price display
+    .footer-price {
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.85) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+}
+
+// ==============================================
+// ANIMATIONS
+// ==============================================
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Mobile specific animation
+@media (max-width: 639px) {
+  .ticket-modal__content {
+    animation: slideUpMobile 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes slideUpMobile {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
