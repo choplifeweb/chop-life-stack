@@ -55,8 +55,8 @@ declare global {
 const useProductionAssets =
   import.meta.env.VITE_USE_PRODUCTION_ASSETS === "true";
 
-// Development video (local party video)
-const DEV_VIDEO_SRC = "/assets/videos/party.mp4";
+// Development video (local chop life video)
+const DEV_VIDEO_SRC = "/assets/videos/chop_life.mp4";
 
 // YouTube video IDs for the modal popup
 const PRODUCTION_YOUTUBE_ID = "upjTaFcgKQs";
