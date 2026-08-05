@@ -397,6 +397,7 @@ export function VideoHero({
   videoDuration = "",
 }: VideoHeroProps) {
   const containerRef = useRef<HTMLElement>(null);
+  const backgroundVideoRef = useRef<HTMLVideoElement>(null);
   // Show modal only on first visit per session (resets when browser/tab closes)
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(() => {
     // this is commented out as per client request
@@ -418,6 +419,24 @@ export function VideoHero({
 
   // Use dev video in development mode, production video otherwise
   const effectiveVideoSrc = useProductionAssets ? videoSrc : DEV_VIDEO_SRC;
+
+  // Force playback imperatively: React sets the `muted` JSX prop as a DOM
+  // property slightly after mount, which is too late for the browser's
+  // autoplay-policy check, so the `autoPlay` attribute alone can silently
+  // leave the video paused on its first frame.
+  useEffect(() => {
+    const video = backgroundVideoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    const playPromise = video.play();
+    if (playPromise) {
+      playPromise.catch(() => {
+        // Autoplay was blocked (e.g. by an aggressive browser policy);
+        // nothing to recover to since the video is muted and decorative.
+      });
+    }
+  }, [effectiveVideoSrc]);
 
   // Parallax scroll effect
   const { scrollYProgress } = useScroll({
@@ -491,6 +510,7 @@ export function VideoHero({
         {/* Background video with parallax */}
         <div className="video-hero__background">
           <motion.video
+            ref={backgroundVideoRef}
             className="video-hero__video"
             style={{ y: videoY }}
             autoPlay
