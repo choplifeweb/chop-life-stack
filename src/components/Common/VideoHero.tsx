@@ -58,9 +58,9 @@ const useProductionAssets =
 // Development video (local chop life video)
 const DEV_VIDEO_SRC = "/assets/videos/chop_life.mp4";
 
-// YouTube video IDs for the modal popup
+// YouTube video ID for the modal popup
 const PRODUCTION_YOUTUBE_ID = "upjTaFcgKQs";
-const DEV_YOUTUBE_ID = "YE7VzlLtp-4";
+const DEV_YOUTUBE_ID = "upjTaFcgKQs";
 
 interface VideoHeroProps {
   videoSrc: string;
